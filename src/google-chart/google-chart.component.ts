@@ -57,7 +57,7 @@ export class GoogleChartComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges):void {
     let key = 'data';
     if (changes[key]) {
-
+      
       if (this.data.destroy){
 
         //reset the wrapper for next time
