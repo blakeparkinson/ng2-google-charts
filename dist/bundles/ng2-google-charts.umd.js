@@ -139,12 +139,12 @@ var GoogleChartComponent = (function () {
         var _this = this;
         var key = 'data';
         if (changes[key]) {
+            if (!this.data) {
+                return;
+            }
             if (this.data.destroy) {
                 //reset the wrapper for next time
                 this.wrapper = undefined;
-            }
-            if (!this.data) {
-                return;
             }
             this.options = this.data.options;
             this.loaderService.load(this.data.chartType).then(function () {
