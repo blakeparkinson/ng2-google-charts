@@ -58,6 +58,11 @@ export class GoogleChartComponent implements OnChanges {
     let key = 'data';
     if (changes[key]) {
 
+      if (this.data.destroy){
+
+        //reset the wrapper for next time
+        this.wrapper = undefined;
+      }
       if(!this.data) {
         return;
       }
