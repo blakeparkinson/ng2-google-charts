@@ -59,6 +59,9 @@ export class GoogleChartComponent implements OnChanges {
     if (changes[key]) {
       
       if(!this.data) {
+
+        //kill the wrapper if there's no data
+        this.wrapper = undefined;
         return;
       }
 
