@@ -1,6 +1,6 @@
 {
   "main": "bundles/ng2-google-charts.umd.js",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Angular2 Google Charts module",
   "module": "index.js",
   "typings": "index.d.ts",
@@ -28,6 +28,6 @@
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0"
   },
-  "_id": "ng2-google-charts@2.3.0",
+  "_id": "ng2-google-charts@2.4.0",
   "devDependencies": {}
 }

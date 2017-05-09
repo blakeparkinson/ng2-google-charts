@@ -18,6 +18,8 @@ var GoogleChartComponent = (function () {
         var key = 'data';
         if (changes[key]) {
             if (!this.data) {
+                //kill the wrapper if there's no data
+                this.wrapper = undefined;
                 return;
             }
             if (this.data.destroy) {
