@@ -1,6 +1,6 @@
 {
   "main": "bundles/ng2-google-charts.umd.js",
-  "version": "2.1.0",
+  "version": "2.3.0",
   "description": "Angular2 Google Charts module",
   "module": "index.js",
   "typings": "index.d.ts",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/gmazzamuto/ng2-google-charts.git"
   },
-  "name": "ng2-google-charts",
+  "name": "backbone-ng2-google-charts",
   "dependencies": {
     "moment": "2.17.1"
   },
@@ -28,6 +28,6 @@
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0"
   },
-  "_id": "ng2-google-charts@2.1.0",
+  "_id": "ng2-google-charts@2.3.0",
   "devDependencies": {}
 }
