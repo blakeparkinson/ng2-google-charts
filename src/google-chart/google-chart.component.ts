@@ -203,7 +203,7 @@ export class GoogleChartComponent implements OnChanges {
   private registerChartWrapperEvents(): void {
 
     google.visualization.events.addListener(this.wrapper, 'ready', () => {
-      this.chartReady.emit({message: 'Chart ready'});
+      this.chartReady.emit({message: 'Chart ready', chart: this.wrapper});
       this.registerChartEvents();
     });
 
