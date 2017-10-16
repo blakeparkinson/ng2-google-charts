@@ -267,7 +267,7 @@ var GoogleChartComponent = (function () {
     GoogleChartComponent.prototype.registerChartWrapperEvents = function () {
         var _this = this;
         google.visualization.events.addListener(this.wrapper, 'ready', function () {
-            _this.chartReady.emit({ message: 'Chart ready' });
+            _this.chartReady.emit({ message: 'Chart ready', chart: _this.wrapper });
             _this.registerChartEvents();
         });
         google.visualization.events.addListener(this.wrapper, 'error', function (error) {
