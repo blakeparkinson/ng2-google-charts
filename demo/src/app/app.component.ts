@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ChartReadyEvent } from 'ng2-google-charts';
 import { ChartErrorEvent } from 'ng2-google-charts';
 import { ChartSelectEvent } from 'ng2-google-charts';
-import { DataPointHoveredEvent } from 'ng2-google-charts';
+import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
+
+import {ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +13,11 @@ import { DataPointHoveredEvent } from 'ng2-google-charts';
 })
 export class AppComponent {
 
+  @ViewChild('cchart') cchart;
+
   public selectEvent: ChartSelectEvent;
 
-  public columnChartOptions:any =  {
+  public columnChartData:any =  {
     chartType: 'ColumnChart',
     dataTable: [
       ['Country', 'Performance', 'Profits'],
@@ -27,7 +31,28 @@ export class AppComponent {
     options: {title: 'Countries'}
   };
 
-  public pieChartOptions:any =  {
+  public columnChartData2:any =  {
+    chartType: 'ColumnChart',
+    dataTable: [
+      ['Country', 'Performance', 'Profits'],
+      ['Germany', 0, 0],
+      ['USA', 0, 0],
+      ['Brazil', 0, 0],
+      ['Canada', 0, 0],
+      ['France', 0, 0],
+      ['RU', 0, 0]
+    ],
+    options: {
+      title: 'Countries',
+      animation:{
+        duration: 1000,
+        easing: 'out',
+        startup: true
+      }
+    }
+  };
+
+  public pieChartData:any =  {
     chartType: 'PieChart',
     dataTable: [
       ['Task', 'Hours per Day'],
@@ -37,10 +62,20 @@ export class AppComponent {
       ['Watch TV', 2],
       ['Sleep',    7]
     ],
-    options: {title: 'Tasks'}
+    options: {
+      title: 'Tasks',
+      slices: {
+        0: {
+        offset: 0.3
+      },
+      1: {
+      offset: 0.2
+      }
+      }
+    }
   };
 
-  public gaugeChartOptions:any =  {
+  public gaugeChartData:any =  {
     chartType: 'Gauge',
     dataTable: [
       ['Label', 'Value'],
@@ -57,7 +92,7 @@ export class AppComponent {
     }
   };
 
-  public scatterChartOptions:any = {
+  public scatterChartData:any = {
     chartType: 'ScatterChart',
     dataTable: [
       ['Age', 'Weight'],
@@ -76,7 +111,7 @@ export class AppComponent {
     }
   };
 
- public timelineChartOptions:any =  {
+ public timelineChartData:any =  {
     chartType: 'Timeline',
     dataTable: [
       ['Name', 'From', 'To'],
@@ -86,7 +121,7 @@ export class AppComponent {
     ]
  }
 
- public lineChartOptions:any =  {
+ public lineChartData:any =  {
     chartType: 'LineChart',
     dataTable: [
       ['Year', 'Sales', 'Expenses'],
@@ -98,7 +133,7 @@ export class AppComponent {
     options: {title: 'Company Performance'}
   };
 
- public comboChartOptions:any =  {
+ public comboChartData:any =  {
     chartType: 'ComboChart',
     dataTable: [
       ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
@@ -117,15 +152,88 @@ export class AppComponent {
     }
   };
 
- public myClick():void {
-    // forces a reference update (otherwise angular doesn't detect the change)
-    this.columnChartOptions = Object.create(this.columnChartOptions);
+  public tableChartData:any =  {
+    chartType: 'Table',
+    dataTable: [
+      ['Department', 'Revenues', 'Another column'],
+      ['Shoes', 10700, -100],
+      ['Sports', -15400, 25],
+      ['Toys', 12500, 40],
+      ['Electronics', -2100, 889],
+      ['Food', 22600, 78],
+      ['Art', 1100, 42]
+    ],
+    formatters: [
+      {
+        columns: [1, 2],
+        type: 'NumberFormat',
+        options: {
+          prefix: '&euro;', negativeColor: 'red', negativeParens: true
+        }
+      }
+    ],
+    options: {title: 'Countries', allowHtml: true}
+  };
+
+ public geoChartData:any =  {
+    chartType: 'GeoChart',
+    dataTable: [
+      ['City',   'Population', 'Area'],
+      ['Rome',      2761477,    1285.31],
+      ['Milan',     1324110,    181.76],
+      ['Naples',    959574,     117.27],
+      ['Turin',     907563,     130.17],
+      ['Palermo',   655875,     158.9],
+      ['Genoa',     607906,     243.60],
+      ['Bologna',   380181,     140.7],
+      ['Florence',  371282,     102.41],
+      ['Fiumicino', 67370,      213.44],
+      ['Anzio',     52192,      43.43],
+      ['Ciampino',  38262,      11]
+    ],
+    options: {
+      region: 'IT',
+      displayMode: 'markers',
+      colorAxis: {colors: ['green', 'blue']}
+    }
+  };
+
+ ngOnInit() {
+   for (let i = 1; i < 7; i++) {
+     this.columnChartData2.dataTable[i][1] = Math.round(
+       Math.random() * 1000);
+     this.columnChartData2.dataTable[i][2] = Math.round(
+       Math.random() * 1000);
+   }
+ }
+
+ public changeData2():void {
+    let dataTable = this.cchart.wrapper.getDataTable();
+    for (let i = 0; i < 6; i++) {
+      dataTable.setValue(i, 1, Math.round(Math.random() * 1000));
+      dataTable.setValue(i, 2, Math.round(Math.random() * 1000));
+    }
+    this.cchart.redraw();
+  }
+
+ public changeData():void {
+    // forces a reference update (otherwise angular won't detect the change
+    this.columnChartData = Object.create(this.columnChartData);
     for (let i = 1; i < 7; i++) {
-      this.columnChartOptions.dataTable[i][1] = Math.round(
+      this.columnChartData.dataTable[i][1] = Math.round(
         Math.random() * 1000);
-      this.columnChartOptions.dataTable[i][2] = Math.round(
+      this.columnChartData.dataTable[i][2] = Math.round(
         Math.random() * 1000);
     }
+  }
+
+ public changeChartType():void {
+    // forces a reference update (otherwise angular doesn't detect the change)
+    this.columnChartData = Object.create(this.columnChartData);
+    if(this.columnChartData.chartType == 'ColumnChart')
+      this.columnChartData.chartType = 'PieChart';
+    else
+      this.columnChartData.chartType = 'ColumnChart';
   }
 
   public ready(event: ChartReadyEvent) {
@@ -140,7 +248,17 @@ export class AppComponent {
     this.selectEvent = event;
   }
 
-  public mouseOver(event: DataPointHoveredEvent) {
+  public mouseOver(event: ChartMouseOverEvent) {
+    console.log('ChartMouseOverEvent');
+    console.log('bb: ' + JSON.stringify(event.boundingBox));
+    console.log('pos: ' + JSON.stringify(event.position));
+    console.log('type: ' + JSON.stringify(event.columnType));
+    console.log('label: ' + JSON.stringify(event.columnLabel));
+    console.log('value: ' + JSON.stringify(event.value));
+  }
+
+  public mouseOut(event: ChartMouseOutEvent) {
+    console.log('ChartMouseOutEvent');
     console.log('bb: ' + JSON.stringify(event.boundingBox));
     console.log('pos: ' + JSON.stringify(event.position));
     console.log('type: ' + JSON.stringify(event.columnType));

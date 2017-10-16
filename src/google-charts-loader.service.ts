@@ -1,11 +1,11 @@
 declare var google: any;
 
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, LOCALE_ID, Inject } from '@angular/core';
 
 @Injectable()
 export class GoogleChartsLoaderService {
 
-  private chartPackage: { [id: string]: string; } = {
+  private chartPackage: { [id: string]: string } = {
     AnnotationChart: 'annotationchart',
     AreaChart: 'corechart',
     Bar: 'bar',
@@ -36,24 +36,24 @@ export class GoogleChartsLoaderService {
 
   private googleScriptLoadingNotifier: EventEmitter<boolean>;
   private googleScriptIsLoading: boolean;
+  private localeId: string;
 
-  public constructor() {
+  public constructor(@Inject(LOCALE_ID) localeId: string) {
     this.googleScriptLoadingNotifier = new EventEmitter();
     this.googleScriptIsLoading = false;
+    this.localeId = localeId;
   }
 
-  public load(chartType: string):Promise<any> {
+  public load(chartType: string): Promise<any> {
     return new Promise((resolve: any = Function.prototype, reject: any = Function.prototype) => {
 
       this.loadGoogleChartsScript().then(() => {
-        google.charts.load('45', {
-          packages: [this.chartPackage[chartType]],
-          callback: resolve
+        google.charts.load('45.2', {
+            packages: [this.chartPackage[chartType]],
+            language: this.localeId,
+            callback: resolve
         });
-      }).catch(() => {
-        console.error('Google charts script could not be loaded');
       });
-
     });
   }
 
@@ -62,11 +62,11 @@ export class GoogleChartsLoaderService {
 
       if (typeof google !== 'undefined' && google.charts) {
         resolve();
-      } else if ( ! this.googleScriptIsLoading) {
+      } else if (!this.googleScriptIsLoading) {
 
         this.googleScriptIsLoading = true;
 
-        let script = document.createElement('script');
+        const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://www.gstatic.com/charts/loader.js';
         script.async = true;
